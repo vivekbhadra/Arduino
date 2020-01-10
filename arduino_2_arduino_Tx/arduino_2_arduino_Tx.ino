@@ -11,32 +11,42 @@ void setup() {
 }
 
 void loop() {
-
-  /*
-  int val;
-  val=analogRead(0);   //connect grayscale sensor to Analog 0
-  if (val > 50) 
-  {
-    val &= 0xFF;
-    char var = val;
-    Serial.write(var);//print the value to serial
-  }
-  delay(100);
-  */
   int temp = 10;
   int accX = 20;
   int accY = 30; 
   int accZ = 40; 
   bool isOpen = 0; 
   bool isTilted = 0;
+  bool wait_for_synch = 0;
 
-  /* wait for slave to get ready */
+  Serial.println("Flusing the SW serial\n");
   mySerial.flush();
-  while(!mySerial.available())
-     ;
-  
-  /* just wait */
+
+  Serial.println("Waiting for syncd word\n");
+  /* wait for slave to get ready */
+  while(!wait_for_synch)
+  {
+    char synch_word[8] = {0xde, 0xad, 0xbe, 0xef};
+    int idx;
+    while(!mySerial.available())
+      ;
+ 
+    for(idx = 0; idx < 4; ++idx)
+      {
+        if(synch_word[idx] != mySerial.read()) {
+          wait_for_synch = 1;
+          break;
+        } 
+      }
+  }
+
+  Serial.println("Flushing SW serial\n");
+  mySerial.flush();
+
+  if(mySerial.available())
+    Serial.println("Bytes on serial after flush!!!");
   Serial.println("Synch received from slave\n");
+  Serial.println("Writing payload bytes\n");
   mySerial.write(temp);
   mySerial.write(accX);
   mySerial.write(accY);
@@ -44,15 +54,14 @@ void loop() {
   mySerial.write(isOpen);
   mySerial.write(isTilted);
 
-  delay(100);
-  
-  while(!mySerial.available())
-        ;
-    /* just wait */
-  Serial.println("Data available\n");
-  if(mySerial.available()) 
+  //delay(100);
+  Serial.println("Writing for stop bytes from slave\n");
+  while(1) 
   {
-    int val = mySerial.read();
-    Serial.println(val);
+    while(!mySerial.available())
+        ;
+    Serial.println(mySerial.read());
+    if(mySerial.read() == 0x30)
+      break;
   }
 }
