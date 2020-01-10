@@ -15,14 +15,10 @@ void loop() {
   mySerial.flush();
   /* unblock the master so that data flow starts */
   /* write synch byte on the serial for the master to start transmission */
-  mySerial.write(0xd);
-  mySerial.write(0xe);
-  mySerial.write(0xa);
-  mySerial.write(0xd);
-  mySerial.write(0xb);
-  mySerial.write(0xe);
-  mySerial.write(0xe);
-  mySerial.write(0xf);
+  mySerial.write(0xde);
+  mySerial.write(0xad);
+  mySerial.write(0xbe);
+  mySerial.write(0xef);
   
   // put your main code here, to run repeatedly:
   Serial.println("Waiting for payload bytes\n");
