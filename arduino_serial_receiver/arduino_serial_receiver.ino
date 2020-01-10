@@ -34,5 +34,5 @@ void loop() {
   Serial.println("Flushing SW Serail\n");
   mySerial.flush();
   Serial.println("Writing the stop byte\n");
-  mySerial.write(0x30);
+  //mySerial.write(0x30);
 }

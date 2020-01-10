@@ -55,13 +55,13 @@ void loop() {
   mySerial.write(isTilted);
 
   //delay(100);
-  Serial.println("Writing for stop bytes from slave\n");
-  while(1) 
-  {
-    while(!mySerial.available())
-        ;
-    Serial.println(mySerial.read());
-    if(mySerial.read() == 0x30)
-      break;
-  }
+//  Serial.println("Writing for stop bytes from slave\n");
+//  while(1) 
+//  {
+//    while(!mySerial.available())
+//        ;
+//    Serial.println(mySerial.read());
+//    if(mySerial.read() == 0x30)
+//      break;
+//  }
 }
