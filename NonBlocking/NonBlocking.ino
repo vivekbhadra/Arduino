@@ -105,7 +105,7 @@ void loop() {
   
   while(mySerial.available())
   {
-    int var = mySerial.read();
+    byte var = mySerial.read();
     Serial.println(var, HEX);
     //Serial.println(val[idx], HEX);
     //++idx;
