@@ -19,10 +19,7 @@ void loop() {
   bool isTilted = 0;
   bool wait_for_synch = 0;
 
-  Serial.println("Flusing the SW serial\n");
-  mySerial.flush();
-
-  Serial.println("Waiting for synch word\n");
+  Serial.println("Wait for synch\n");
   /* wait for slave to get ready */
   while(!wait_for_synch)
   {
@@ -64,7 +61,7 @@ void loop() {
 
   Serial.println("All payload bytes written\n");
 
-  //delay(100);
+  delay(10);
   Serial.println("Waiting for stop bytes from slave\n");
   while(1) 
   {

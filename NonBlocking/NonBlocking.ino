@@ -110,32 +110,44 @@ void loop() {
     ++idx;
   }
 
-//  idx = 0;
-//  byte b = lowByte(val[idx++]); 
-//  Serial.println( b, HEX );  
-//  payload.bit_info.b40 = b;
-//  
-//  b = lowByte(val[idx++]); 
-//  Serial.println( b, HEX );  
-//  payload.bit_info.b39b32 = b;
-//
-//  b = lowByte(val[idx++]); 
-//  Serial.println( b, HEX );  
-//  payload.bit_info.b31b24 = b;
-//
-//  b = lowByte(val[idx++]); 
-//  Serial.println( b, HEX );  
-//  payload.bit_info.b23b16 = b;
-//
-//  b = lowByte(val[idx++]); 
-//  Serial.println( b, HEX );  
-//  payload.bit_info.b15b8 = b;
-//
-//  b = lowByte(val[idx++]); 
-//  Serial.println( b, HEX );  
-//  payload.bit_info.b7b0 = b;
-//
-//  Serial.println("DONE\n");
+  Serial.print(idx, HEX);
+  Serial.print("\n");
+
+  idx = 0;
+  payload.bit_info.b40 = val[idx];
+  Serial.print(payload.bit_info.b40, HEX);
+  Serial.print(" ");
+
+  ++idx;
+  payload.bit_info.b39b32 = val[idx];
+  Serial.print(payload.bit_info.b40, HEX);
+  Serial.print(" ");
+
+  ++idx;
+  payload.bit_info.b31b24 = val[idx];
+  Serial.print(payload.bit_info.b40, HEX);
+  Serial.print(" ");
+
+  ++idx;
+  payload.bit_info.b23b16 = val[idx];
+  Serial.print(payload.bit_info.b40, HEX);
+  Serial.print(" ");
+
+  ++idx;
+  payload.bit_info.b15b8 = val[idx];
+  Serial.print(payload.bit_info.b40, HEX);
+  Serial.print(" ");
+
+  ++idx;
+  payload.bit_info.b15b8 = val[idx];
+  Serial.print(payload.bit_info.b40, HEX);
+  Serial.print(" ");
+
+  ++idx;
+  payload.bit_info.b7b0 = val[idx];
+  Serial.print(payload.bit_info.b40, HEX);
+  Serial.print("\n");
+  Serial.println("DONE\n");
 //  
 //  Serial.println("Set payload\n");
 //  lpwa.setPayload(payload);
