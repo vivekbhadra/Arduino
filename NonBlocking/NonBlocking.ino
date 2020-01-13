@@ -78,7 +78,7 @@ void setup() {
 void loop() {
   PAYLOAD_RESULT payloadResult = STILL_PL;
   TX_RESULT result;
-  int val[5] = {0};
+  byte val[6] = {0};
   int idx = 0;
 
   printLog("SET %02X%02X%02X%02X%02X%02X\r\n",
@@ -105,10 +105,9 @@ void loop() {
   
   while(mySerial.available())
   {
-    byte var = mySerial.read();
-    Serial.println(var, HEX);
-    //Serial.println(val[idx], HEX);
-    //++idx;
+    val[idx] = mySerial.read();
+    Serial.println(val[idx], HEX);
+    ++idx;
   }
 
 //  idx = 0;
