@@ -102,15 +102,13 @@ void loop() {
           ;
   /* just wait */
   Serial.println("Read payload\n");
-  
   while(mySerial.available())
   {
     val[idx] = mySerial.read();
-    Serial.println(val[idx], HEX);
+    Serial.print(val[idx], HEX);
+    Serial.print(" ");
     ++idx;
   }
-
-  Serial.print(idx, HEX);
   Serial.print("\n");
 
   idx = 0;
@@ -120,32 +118,27 @@ void loop() {
 
   ++idx;
   payload.bit_info.b39b32 = val[idx];
-  Serial.print(payload.bit_info.b40, HEX);
+  Serial.print(payload.bit_info.b39b32, HEX);
   Serial.print(" ");
 
   ++idx;
   payload.bit_info.b31b24 = val[idx];
-  Serial.print(payload.bit_info.b40, HEX);
+  Serial.print(payload.bit_info.b31b24, HEX);
   Serial.print(" ");
 
   ++idx;
   payload.bit_info.b23b16 = val[idx];
-  Serial.print(payload.bit_info.b40, HEX);
+  Serial.print(payload.bit_info.b23b16, HEX);
   Serial.print(" ");
 
   ++idx;
   payload.bit_info.b15b8 = val[idx];
-  Serial.print(payload.bit_info.b40, HEX);
-  Serial.print(" ");
-
-  ++idx;
-  payload.bit_info.b15b8 = val[idx];
-  Serial.print(payload.bit_info.b40, HEX);
+  Serial.print(payload.bit_info.b15b8, HEX);
   Serial.print(" ");
 
   ++idx;
   payload.bit_info.b7b0 = val[idx];
-  Serial.print(payload.bit_info.b40, HEX);
+  Serial.print(payload.bit_info.b7b0, HEX);
   Serial.print("\n");
   Serial.println("DONE\n");
 //  

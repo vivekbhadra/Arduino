@@ -17,11 +17,11 @@ void loop() {
   int accZ = 40; 
   bool isOpen = 0; 
   bool isTilted = 0;
-  bool wait_for_synch = 0;
+  bool wait_for_synch = 1;
 
   Serial.println("Wait for synch\n");
   /* wait for slave to get ready */
-  while(!wait_for_synch)
+  while(wait_for_synch)
   {
     char synch_word[8] = {0xde, 0xad, 0xbe, 0xef};
     int idx;
@@ -31,7 +31,7 @@ void loop() {
     for(idx = 0; idx < 4; ++idx)
       {
         if(synch_word[idx] != mySerial.read()) {
-          wait_for_synch = 1;
+          wait_for_synch = 0;
           break;
         } 
       }
