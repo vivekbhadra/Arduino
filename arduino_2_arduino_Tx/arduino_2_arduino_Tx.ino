@@ -22,7 +22,7 @@ void loop() {
   Serial.println("Flusing the SW serial\n");
   mySerial.flush();
 
-  Serial.println("Waiting for syncd word\n");
+  Serial.println("Waiting for synch word\n");
   /* wait for slave to get ready */
   while(!wait_for_synch)
   {
@@ -39,28 +39,30 @@ void loop() {
         } 
       }
   }
-
+  Serial.println("Synch word received\n");
   Serial.println("Flushing SW serial\n");
   mySerial.flush();
 
-  if(mySerial.available())
+  if(mySerial.available()) {
     Serial.println("Bytes on serial after flush!!!");
-  Serial.println("Synch received from slave\n");
-  Serial.println("Writing payload bytes\n");
-  mySerial.write(temp);
-  mySerial.write(accX);
-  mySerial.write(accY);
-  mySerial.write(accZ);
+  }
 
+  Serial.println("Writing payload bytes\n");
   /* Door open/close */
   int light = analogRead(0);
   if(light < 25)
     isOpen = 0;
   else 
     isOpen = 1;
-    
+  
+  mySerial.write(temp);
+  mySerial.write(accX);
+  mySerial.write(accY);
+  mySerial.write(accZ);    
   mySerial.write(isOpen);
   mySerial.write(isTilted);
+
+  Serial.println("All payload bytes written\n");
 
   //delay(100);
   Serial.println("Waiting for stop bytes from slave\n");
@@ -68,7 +70,7 @@ void loop() {
   {
     while(!mySerial.available())
         ;
-    Serial.println(mySerial.read());
+    Serial.println(mySerial.read(), HEX);
     if(mySerial.read() == 0x30)
       break;
   }

@@ -78,6 +78,8 @@ void setup() {
 void loop() {
   PAYLOAD_RESULT payloadResult = STILL_PL;
   TX_RESULT result;
+  int val[5] = {0};
+  int idx = 0;
 
   printLog("SET %02X%02X%02X%02X%02X%02X\r\n",
            payload.byte_info[0], payload.byte_info[1],
@@ -87,42 +89,56 @@ void loop() {
   mySerial.flush();
   /* unblock the master so that data flow starts */
   /* write synch byte on the serial for the master to start transmission */
+  Serial.println("Write synch bytes\n");
   mySerial.write(0xde);
   mySerial.write(0xad);
   mySerial.write(0xbe);
   mySerial.write(0xef);
 
+  //delay(100);
   // put your main code here, to run repeatedly:
-  Serial.println("Waiting for payload bytes\n");
+  Serial.println("Wait for payload bytes\n");
   while(!mySerial.available())
           ;
   /* just wait */
-  Serial.println("Reading Payload bytes\n");
+  Serial.println("Read payload\n");
+  
   while(mySerial.available())
   {
-    int val = mySerial.read();
-    Serial.println(val);
+    int var = mySerial.read();
+    Serial.println(var, HEX);
+    //Serial.println(val[idx], HEX);
+    //++idx;
   }
-  Serial.println("Flushing SW Serail\n");
-  mySerial.flush();
-  Serial.println("Writing the stop byte\n");
-  mySerial.write(0x30);
 
-//  if(Serial.available() > 0)
-//  {
-//    int incomingByte = Serial.read();
-//    byte b = lowByte(incomingByte); 
-//    Serial.println( b, HEX );  
-//    payload.bit_info.b40 = b;
-//    payload.bit_info.b39b32 = b;
-//    payload.bit_info.b31b24 = b;
-//    payload.bit_info.b23b16 = b;
-//    payload.bit_info.b15b8 = b;
-//    payload.bit_info.b7b0 = b;
-//  } else {
-//    printLog("Nothing on the Rx line yet\n");
-//  }
+//  idx = 0;
+//  byte b = lowByte(val[idx++]); 
+//  Serial.println( b, HEX );  
+//  payload.bit_info.b40 = b;
+//  
+//  b = lowByte(val[idx++]); 
+//  Serial.println( b, HEX );  
+//  payload.bit_info.b39b32 = b;
 //
+//  b = lowByte(val[idx++]); 
+//  Serial.println( b, HEX );  
+//  payload.bit_info.b31b24 = b;
+//
+//  b = lowByte(val[idx++]); 
+//  Serial.println( b, HEX );  
+//  payload.bit_info.b23b16 = b;
+//
+//  b = lowByte(val[idx++]); 
+//  Serial.println( b, HEX );  
+//  payload.bit_info.b15b8 = b;
+//
+//  b = lowByte(val[idx++]); 
+//  Serial.println( b, HEX );  
+//  payload.bit_info.b7b0 = b;
+//
+//  Serial.println("DONE\n");
+//  
+//  Serial.println("Set payload\n");
 //  lpwa.setPayload(payload);
 //
 //  while (STILL_PL == payloadResult) {
@@ -142,12 +158,10 @@ void loop() {
 //    printLog("Tx Result = %02X\r\n", result);
 //  }
 
-  //payload.bit_info.b40++;
-  //payload.bit_info.b39b32++;
-  //payload.bit_info.b31b24++;
-  //payload.bit_info.b23b16++;
-  //payload.bit_info.b15b8++;
-  //payload.bit_info.b7b0++;
+  Serial.println("Flushing SW Serail\n");
+  mySerial.flush();
+  Serial.println("Writing the stop byte\n");
+  mySerial.write(0x30);
 }
 
 /*
