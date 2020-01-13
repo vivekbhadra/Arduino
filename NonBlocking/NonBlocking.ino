@@ -141,26 +141,26 @@ void loop() {
   Serial.print(payload.bit_info.b7b0, HEX);
   Serial.print("\n");
   Serial.println("DONE\n");
-//  
-//  Serial.println("Set payload\n");
-//  lpwa.setPayload(payload);
-//
-//  while (STILL_PL == payloadResult) {
-//    payloadResult = lpwa.readPayloadResult();
-//  }
-//
-//  printLog("PlayLoad Result = %02X\r\n", payloadResult);
-//  if (OK != payloadResult) {
-//    return;
-//  }
-//
-//  for (int i = 0; i < 4; i++) {
-//    result = STILL_TX;
-//    while (STILL_TX == result) {
-//      result = lpwa.readTxResult();
-//    }
-//    printLog("Tx Result = %02X\r\n", result);
-//  }
+  
+  Serial.println("Set payload\n");
+  lpwa.setPayload(payload);
+
+  while (STILL_PL == payloadResult) {
+    payloadResult = lpwa.readPayloadResult();
+  }
+
+  printLog("PlayLoad Result = %02X\r\n", payloadResult);
+  if (OK != payloadResult) {
+    return;
+  }
+
+  for (int i = 0; i < 4; i++) {
+    result = STILL_TX;
+    while (STILL_TX == result) {
+      result = lpwa.readTxResult();
+    }
+    printLog("Tx Result = %02X\r\n", result);
+  }
 
   Serial.println("Flushing SW Serail\n");
   mySerial.flush();
