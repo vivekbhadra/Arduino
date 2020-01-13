@@ -51,11 +51,19 @@ void loop() {
   mySerial.write(accX);
   mySerial.write(accY);
   mySerial.write(accZ);
+
+  /* Door open/close */
+  int light = analogRead(0);
+  if(light < 25)
+    isOpen = 0;
+  else 
+    isOpen = 1;
+    
   mySerial.write(isOpen);
   mySerial.write(isTilted);
 
   //delay(100);
-  Serial.println("Writing for stop bytes from slave\n");
+  Serial.println("Waiting for stop bytes from slave\n");
   while(1) 
   {
     while(!mySerial.available())

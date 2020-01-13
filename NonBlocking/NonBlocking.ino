@@ -20,12 +20,15 @@
   す。
 
  */
+#include <SoftwareSerial.h>
 #include "SonysLPWA.h"
 
 const int LOG_LINE_SIZE = 512;
 
 SonysLPWA lpwa = SonysLPWA();
 PAYLOAD_BUF payload;
+
+SoftwareSerial mySerial(6, 7);
 
 /*
  * ログ出力用関数
@@ -54,6 +57,9 @@ void printLog(const char szFmt[], ...) {
 void setup() {
 
   // ハードシリアルをデバッグログ用として使用
+  pinMode(6, INPUT);
+  pinMode(7, OUTPUT);
+  mySerial.begin(9600);
   Serial.begin(9600);
 
   //  printLog("%s\r\n", SonysLPWA::getRevision());
@@ -61,12 +67,12 @@ void setup() {
   lpwa.begin();
   lpwa.setDebugLogFunction(logputs);
 
-  payload.bit_info.b40 = 255;   /* 実際はLSB 1bitのみ有効 */
-  payload.bit_info.b39b32 = 0x23;
-  payload.bit_info.b31b24 = 0x45;
-  payload.bit_info.b23b16 = 0x67;
-  payload.bit_info.b15b8 = 0x89;
-  payload.bit_info.b7b0 = 0xab;
+  payload.bit_info.b40 = 0;   /* 実際はLSB 1bitのみ有効 */
+  payload.bit_info.b39b32 = 0;
+  payload.bit_info.b31b24 = 0;
+  payload.bit_info.b23b16 = 0;
+  payload.bit_info.b15b8 = 0;
+  payload.bit_info.b7b0 = 0;
 }
 
 void loop() {
@@ -78,39 +84,63 @@ void loop() {
            payload.byte_info[2], payload.byte_info[3],
            payload.byte_info[4], payload.byte_info[5]);
 
-  if(Serial.available() > 0)
+  mySerial.flush();
+  /* unblock the master so that data flow starts */
+  /* write synch byte on the serial for the master to start transmission */
+  mySerial.write(0xde);
+  mySerial.write(0xad);
+  mySerial.write(0xbe);
+  mySerial.write(0xef);
+
+  // put your main code here, to run repeatedly:
+  Serial.println("Waiting for payload bytes\n");
+  while(!mySerial.available())
+          ;
+  /* just wait */
+  Serial.println("Reading Payload bytes\n");
+  while(mySerial.available())
   {
-    int incomingByte = Serial.read();
-    byte b = lowByte(incomingByte); 
-    Serial.println( b, HEX );  
-    payload.bit_info.b40 = b;
-    payload.bit_info.b39b32 = b;
-    payload.bit_info.b31b24 = b;
-    payload.bit_info.b23b16 = b;
-    payload.bit_info.b15b8 = b;
-    payload.bit_info.b7b0 = b;
-  } else {
-    printLog("Nothing on the Rx line yet\n");
+    int val = mySerial.read();
+    Serial.println(val);
   }
+  Serial.println("Flushing SW Serail\n");
+  mySerial.flush();
+  Serial.println("Writing the stop byte\n");
+  mySerial.write(0x30);
 
-  lpwa.setPayload(payload);
-
-  while (STILL_PL == payloadResult) {
-    payloadResult = lpwa.readPayloadResult();
-  }
-
-  printLog("PlayLoad Result = %02X\r\n", payloadResult);
-  if (OK != payloadResult) {
-    return;
-  }
-
-  for (int i = 0; i < 4; i++) {
-    result = STILL_TX;
-    while (STILL_TX == result) {
-      result = lpwa.readTxResult();
-    }
-    printLog("Tx Result = %02X\r\n", result);
-  }
+//  if(Serial.available() > 0)
+//  {
+//    int incomingByte = Serial.read();
+//    byte b = lowByte(incomingByte); 
+//    Serial.println( b, HEX );  
+//    payload.bit_info.b40 = b;
+//    payload.bit_info.b39b32 = b;
+//    payload.bit_info.b31b24 = b;
+//    payload.bit_info.b23b16 = b;
+//    payload.bit_info.b15b8 = b;
+//    payload.bit_info.b7b0 = b;
+//  } else {
+//    printLog("Nothing on the Rx line yet\n");
+//  }
+//
+//  lpwa.setPayload(payload);
+//
+//  while (STILL_PL == payloadResult) {
+//    payloadResult = lpwa.readPayloadResult();
+//  }
+//
+//  printLog("PlayLoad Result = %02X\r\n", payloadResult);
+//  if (OK != payloadResult) {
+//    return;
+//  }
+//
+//  for (int i = 0; i < 4; i++) {
+//    result = STILL_TX;
+//    while (STILL_TX == result) {
+//      result = lpwa.readTxResult();
+//    }
+//    printLog("Tx Result = %02X\r\n", result);
+//  }
 
   //payload.bit_info.b40++;
   //payload.bit_info.b39b32++;
