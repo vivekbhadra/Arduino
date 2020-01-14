@@ -14,6 +14,8 @@
 
 #define SPEED 9600L
 
+#define LOG_BUF_SIZE 256
+
 #define SND_BUF_SIZE 64 // "Set Payload " + payload buffer + CRLF + buffer
 #define RCV_BUF_SUZE SND_BUF_SIZE
 
@@ -31,6 +33,7 @@ static const unsigned char PAYLOAD_MASK[] = {
 SonysLPWA::SonysLPWA() {
   this->m_pfPrint = NULL;
 
+  // ペイロードバファファの第一引数の位置を保持
   strcpy(this->m_szSendBuf, "Set payload ");
   this->m_pszArg1 = this->m_szSendBuf + strlen(this->m_szSendBuf);
 
@@ -74,15 +77,14 @@ void SonysLPWA::end()
 void
 SonysLPWA::printLog(const char *pszFmt, ...) {
     va_list arg;
-    //char buf[1024];
-    char buf[256];
+    char buf[LOG_BUF_SIZE];
 
     if (!this->m_pfPrint) {
         return;
     }
 
     va_start(arg, pszFmt);
-    vsnprintf(buf, 256 - 1, pszFmt, arg);
+    vsnprintf(buf, LOG_BUF_SIZE - 1, pszFmt, arg);
     va_end(arg);
 
     this->m_pfPrint("[Sony's LPWA] ");
@@ -163,13 +165,13 @@ SonysLPWA::waitForPayloadResult(void)
         && 0 == strcmp("Set", lpszTbl[0])
         && 0 == strcmp("payload", lpszTbl[1])) {
       if (0 == strcmp("OK", lpszTbl[2])) {
-        printLog("payLoad set OK\n");
+        printLog("setPL OK\r\n");
         return OK;
       } else if (4 == cnt && 0 == strcmp("ERR", lpszTbl[2])) {
-        printLog("payLoad set ERR\n");
+        printLog("setPL ERR\r\n");
         return (PAYLOAD_RESULT) strtol(lpszTbl[3], NULL, 16);
       } else {
-        printLog("payLoad set result no payload\n");
+        printLog("setPL no payload\r\n");
         return NOT_PAYLOAD;
       }
     }

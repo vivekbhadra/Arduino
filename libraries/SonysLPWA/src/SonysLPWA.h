@@ -11,10 +11,13 @@
 #include <SoftwareSerial.h>
 #include "StrUtil.h"
 
-#define REVISION "R1.0.0" "($Date:: 2017-08-29 13:44:38 +0900#$)"
+#define REVISION "R1.0.1" "($Date:: 2020-01-12 10:28:00 +0900#$)"
 
 // 送受信バッファのサイズ(論理的な最大サイズより余裕を持って定義してい
 // ます)
+
+#define LOG_BUF_SIZE 256
+
 #define SND_BUF_SIZE 64 // "Set Payload " + payload buffer + CRLF + buffer
 #define RCV_BUF_SUZE SND_BUF_SIZE
 

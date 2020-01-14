@@ -23,7 +23,7 @@
 #include <SoftwareSerial.h>
 #include "SonysLPWA.h"
 
-const int LOG_LINE_SIZE = 512;
+const int LOG_LINE_SIZE = 128;
 
 SonysLPWA lpwa = SonysLPWA();
 PAYLOAD_BUF payload;
