@@ -1,0 +1,60 @@
+# -*- coding: utf-8; -*-
+# Copyright 2017 Sony Semiconductor Solutions Corporation
+#
+# $Rev: 1055 $
+# $Date:: 2017-08-29 13:44:38 +0900#$
+# see: https://github.com/arduino/Arduino/wiki/Arduino-IDE-1.5:-Library-specification
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+PAYLOAD_BUF	KEYWORD1
+PPAYLOAD_BUF	KEYWORD1
+PAYLOAD_RESULT	KEYWORD1
+TX_RESULT	KEYWORD1
+PAYLOAD_RESULT	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+SonysLPWA	KEYWORD2
+getRevision	KEYWORD2
+begin	KEYWORD2
+end	KEYWORD2
+setDebugLogFunction	KEYWORD2
+setPayload	KEYWORD2
+waitForPayloadResult	KEYWORD2
+waitForTxResult	KEYWORD2
+waitForFinalTxResult	KEYWORD2
+readPayloadResult	KEYWORD2
+readTxResult	KEYWORD2
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+OK	LITERAL1
+TOO_FEW_ARGUMENTS	LITERAL1
+TOO_MANY_ARGUMENTS	LITERAL1
+COMMAND_ERROR	LITERAL1
+ARGUMENT1_ERROR	LITERAL1
+ARGUMENT2_CHARACTER_ERROR	LITERAL1
+ARGUMENT2_LENGTH_ERROR	LITERAL1
+BUFFER_OVERFLOW	LITERAL1
+UNEXPECTED_ERROR	LITERAL1
+NOT_PAYLOAD	LITERAL1
+PL_TIMEOUT	LITERAL1
+STILL_PL	LITERAL1
+
+SUCCESS_HIGH_QUALITY	LITERAL1
+SUCCESS_LOW_QUALITY	LITERAL1
+FAILED_CARRIER_SENSE	LITERAL1
+FAILED_UNEXPECTED	LITERAL1
+NOT_TX	LITERAL1
+TX_TIMEOUT	LITERAL1
+STILL_TX	LITERAL1
