@@ -66,8 +66,9 @@ void loop() {
       if(Wire.available())
       {
         byte res = Wire.read();
-        if(res == 0xef)
+        if(res == 0xef) {
           break;
+        }
       }
     }
   }

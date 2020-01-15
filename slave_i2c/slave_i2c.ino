@@ -31,7 +31,7 @@ void requestEvent()
 {
   Serial.println("requestEvent");
   if(x == 0xde) {
-    Wire.write(0xaa);
+    Wire.write(0xad);
   } else if(x = 0xbe) {
     Wire.write(0xef);  
   }
